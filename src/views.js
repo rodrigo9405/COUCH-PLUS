@@ -17,7 +17,7 @@ function DietWeek({ st, highlight = today() }) {
   const diet = st.diet;
   if (!diet || !(diet.meals || []).length) return html`<${Empty} icon="food" title="Sin dieta asignada" text="Cuando el entrenador la cree, aparecerá organizada por día." />`;
   const td = dow(highlight);
-  if (wide) return html`<div class="table-wrap"><div class="dgrid" style=${`grid-template-columns: 120px repeat(7, minmax(112px, 1fr))`}>
+  if (wide) return html`<div class="table-wrap"><div class="dgrid" style=${`grid-template-columns: 116px repeat(7, minmax(106px, 1fr))`}>
     <div class="dg-h corner"></div>
     ${DIAS.map((d, i) => html`<div class=${'dg-h ' + (i === td ? 'today' : '')}>${d}${i === td ? html`<small>Hoy</small>` : ''}</div>`)}
     ${diet.meals.map(m => html`<div class="dg-m"><strong>${m.name}</strong>${m.time && html`<small>${m.time}</small>`}</div>
@@ -127,7 +127,7 @@ function LogItem({ l }) {
     <button class="row between full link-row" onClick=${() => setOpen(!open)}><strong>${l.dayName}</strong><span class="muted sm">${fmtD(l.date)} · ${fmtTime(l.ts)}</span></button>
     <div class="row gap-s wrap"><${Pill} k="good">Completado<//><span class="muted sm">${(l.exercises || []).length} ejercicios · ${nSets} series${l.duration ? ' · ' + fmtDur(l.duration) : ''}</span><button class="link sm" onClick=${() => setOpen(!open)}>${open ? 'Ocultar detalle' : 'Ver detalle'}</button></div>
     ${open && html`<div class="table-wrap"><table class="tbl sm"><thead><tr><th>Ejercicio</th><th>Series registradas</th></tr></thead><tbody>
-      ${(l.exercises || []).map(e => html`<tr><td>${e.name}</td><td>${(e.sets || []).length ? e.sets.map(s => `${s.reps}×${numStr(s.w)}${s.u}`).join(' · ') : html`<span class="muted">No realizado</span>`}</td></tr>`)}
+      ${(l.exercises || []).map(e => html`<tr><td data-label="Ejercicio">${e.name}</td><td data-label="Series registradas">${(e.sets || []).length ? e.sets.map(s => `${s.reps}×${numStr(s.w)}${s.u}`).join(' · ') : html`<span class="muted">No realizado</span>`}</td></tr>`)}
     </tbody></table></div>`}
   </div></div>`;
 }
@@ -138,7 +138,7 @@ function MonthCal({ st, month }) {
   const cells = []; let d = start; while (d <= last || dow(d) !== 0) { cells.push(d); d = addDays(d, 1); if (cells.length > 42) break; }
   const logs = Q.logs(st.id);
   return html`<section class="card"><div class="card-h"><h2>${MESL[parseD(first).getMonth()]} ${first.slice(0, 4)}</h2>
-    <div class="legend"><span><i class="lg good"></i>Entrenó</span><span><i class="lg bad"></i>Omitió</span><span><i class="lg diet"></i>Dieta completa</span></div></div>
+    <div class="legend"><span><i class="lg-sw good"></i>Entrenó</span><span><i class="lg-sw bad"></i>Omitió</span><span><i class="lg-sw diet"></i>Dieta completa</span></div></div>
     <div class="cal">${DIAS3.map(x => html`<div class="cal-h">${x}</div>`)}
       ${cells.map(c => {
         const inM = c.slice(0, 7) === month; const L = logs.filter(l => l.date === c);

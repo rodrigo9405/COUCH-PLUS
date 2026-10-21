@@ -104,14 +104,14 @@ function AdminTrainers({ go, params }) {
   return html`<div class="page">
     <div class="toolbar"><div class="search"><${Ic} n="search" s=${16} /><input id="at-q" placeholder="Buscar por nombre, DNI o usuario" value=${q} onInput=${e => setQ(e.target.value)} /></div>
       <button class="btn primary" onClick=${() => openModal(PersonForm, { kind: 'trainer' })}><${Ic} n="plus" s=${16} />Nuevo entrenador</button></div>
-    ${list.length ? html`<div class="table-wrap"><table class="tbl">
+    ${list.length ? html`<div class="table-wrap"><table class="tbl stack">
       <thead><tr><th>Entrenador</th><th>Teléfono</th><th>Plan</th><th>Próximo pago</th><th class="num">Alumnos</th><th>Acceso</th><th></th></tr></thead>
       <tbody>${list.map(t => html`<tr class=${t.active === false ? 'dim' : ''}>
-        <td><button class="cell-person" onClick=${() => openModal(TrainerDetail, { id: t.id, go })}><${Avatar} p=${t} size=${32} tone=${hashTone(t.id)} /><span><strong>${fullName(t)}</strong><small class="muted">DNI ${t.dni || '—'} · ${t.user}</small></span></button></td>
-        <td>${t.telefono || '—'}</td><td>${FREQ[t.freq || 'mensual'].label}</td>
-        <td><div class="stack"><span>${fmtD(t.nextPay)}</span><${PayPill} next=${t.nextPay} /></div></td>
-        <td class="num">${Q.students(t.id).length}</td>
-        <td><${Toggle} id=${'tg-' + t.id} checked=${t.active !== false} onChange=${v => { Store.put('trainers', Object.assign({}, t, { active: v })); toast(v ? 'Entrenador activado' : 'Entrenador desactivado'); }} /></td>
+        <td class="full"><button class="cell-person" onClick=${() => openModal(TrainerDetail, { id: t.id, go })}><${Avatar} p=${t} size=${32} tone=${hashTone(t.id)} /><span><strong>${fullName(t)}</strong><small class="muted">DNI ${t.dni || '—'} · ${t.user}</small></span></button></td>
+        <td data-label="Teléfono">${t.telefono || '—'}</td><td data-label="Plan">${FREQ[t.freq || 'mensual'].label}</td>
+        <td data-label="Próximo pago"><div class="stack"><span>${fmtD(t.nextPay)}</span><${PayPill} next=${t.nextPay} /></div></td>
+        <td class="num" data-label="Alumnos">${Q.students(t.id).length}</td>
+        <td data-label="Acceso"><${Toggle} id=${'tg-' + t.id} checked=${t.active !== false} onChange=${v => { Store.put('trainers', Object.assign({}, t, { active: v })); toast(v ? 'Entrenador activado' : 'Entrenador desactivado'); }} /></td>
         <td class="act"><button class="icon-btn" aria-label="Ver detalle" onClick=${() => openModal(TrainerDetail, { id: t.id, go })}><${Ic} n="eye" /></button><button class="icon-btn" aria-label="Editar" onClick=${() => openModal(PersonForm, { kind: 'trainer', rec: t })}><${Ic} n="edit" /></button><button class="icon-btn danger-t" aria-label="Eliminar" onClick=${() => askDeleteTrainer(t)}><${Ic} n="trash" /></button></td>
       </tr>`)}</tbody></table></div>` : html`<${Empty} icon="users" title=${q ? 'Sin resultados' : 'Aún no hay entrenadores'} text=${q ? 'Prueba con otro nombre o DNI.' : 'Crea la primera cuenta de entrenador.'} />`}
   </div>`;
@@ -156,13 +156,13 @@ function AdminStudents({ go, params }) {
     <div class="toolbar"><div class="search"><${Ic} n="search" s=${16} /><input id="as-q" placeholder="Buscar alumno" value=${q} onInput=${e => setQ(e.target.value)} /></div>
       <select id="as-tf" class="sel" value=${tf} onChange=${e => setTf(e.target.value)}><option value="" selected=${!tf}>Todos los entrenadores</option>${trs.map(t => html`<option value=${t.id} selected=${t.id === tf}>${fullName(t)}</option>`)}</select>
       <button class="btn primary" disabled=${!trs.length} onClick=${() => openModal(PersonForm, { kind: 'student' })}><${Ic} n="plus" s=${16} />Nuevo alumno</button></div>
-    ${list.length ? html`<div class="table-wrap"><table class="tbl">
+    ${list.length ? html`<div class="table-wrap"><table class="tbl stack">
       <thead><tr><th>Alumno</th><th>Entrenador</th><th>Teléfono</th><th>Inicio</th><th>Próximo pago</th><th></th></tr></thead>
       <tbody>${list.map(s => { const t = Q.trainer(s.trainerId); return html`<tr class=${t && t.active === false ? 'dim' : ''}>
-        <td><button class="cell-person" onClick=${() => openModal(StudentInfo, { id: s.id })}><${Avatar} p=${s} size=${32} tone=${hashTone(s.id)} /><span><strong>${fullName(s)}</strong><small class="muted">DNI ${s.dni || '—'} · ${s.user}</small></span></button></td>
-        <td>${t ? html`<span>${fullName(t)}</span>${t.active === false ? html` <${Pill} k="bad">Inactivo<//>` : ''}` : html`<span class="muted">Sin asignar</span>`}</td>
-        <td>${s.telefono || '—'}</td><td>${fmtD(s.inicio)}</td>
-        <td>${s.remind ? html`<div class="stack"><span>${fmtD(s.nextPay)}</span><${PayPill} next=${s.nextPay} /></div>` : html`<span class="muted">Sin recordatorio</span>`}</td>
+        <td class="full"><button class="cell-person" onClick=${() => openModal(StudentInfo, { id: s.id })}><${Avatar} p=${s} size=${32} tone=${hashTone(s.id)} /><span><strong>${fullName(s)}</strong><small class="muted">DNI ${s.dni || '—'} · ${s.user}</small></span></button></td>
+        <td data-label="Entrenador">${t ? html`<span>${fullName(t)}</span>${t.active === false ? html` <${Pill} k="bad">Inactivo<//>` : ''}` : html`<span class="muted">Sin asignar</span>`}</td>
+        <td data-label="Teléfono">${s.telefono || '—'}</td><td data-label="Inicio">${fmtD(s.inicio)}</td>
+        <td data-label="Próximo pago">${s.remind ? html`<div class="stack"><span>${fmtD(s.nextPay)}</span><${PayPill} next=${s.nextPay} /></div>` : html`<span class="muted">Sin recordatorio</span>`}</td>
         <td class="act"><button class="icon-btn" aria-label="Ver detalle" onClick=${() => openModal(StudentInfo, { id: s.id })}><${Ic} n="eye" /></button><button class="icon-btn" aria-label="Editar" onClick=${() => openModal(PersonForm, { kind: 'student', rec: s })}><${Ic} n="edit" /></button></td>
       </tr>`; })}</tbody></table></div>` : html`<${Empty} icon="user" title="Sin alumnos" text=${trs.length ? 'Los entrenadores crean a sus alumnos; también puedes crearlos aquí.' : 'Primero crea un entrenador.'} />`}
   </div>`;

@@ -42,15 +42,15 @@ function TrainerHome({ tr, go }) {
     </div>
     <section class="card">
       <div class="card-h"><h2>Avance de tus alumnos</h2><button class="btn ghost sm" onClick=${() => go('students')}>Ver todos <${Ic} n="chevR" s=${14} /></button></div>
-      ${sum.length ? html`<div class="table-wrap"><table class="tbl">
+      ${sum.length ? html`<div class="table-wrap"><table class="tbl stack">
         <thead><tr><th>Alumno</th><th>Entrenamiento (30 d)</th><th>Dieta (7 d)</th><th class="num">Peso</th><th>Omisiones</th><th>Próx. revisión</th></tr></thead>
         <tbody>${sum.map(x => html`<tr class="clickable" onClick=${() => go('student', { id: x.s.id })}>
-          <td><span class="cell-person"><${Avatar} p=${x.s} size=${30} tone=${hashTone(x.s.id)} /><span><strong>${fullName(x.s)}</strong><small class="muted">${x.last ? 'Última actividad ' + fmtDs(x.last.date) : 'Sin actividad'}</small></span></span></td>
-          <td><${MiniBar} pct=${x.s30.trainPct} label=${`${x.s30.done} sesiones`} /></td>
-          <td><${MiniBar} pct=${x.s7.dietPct} label=${`${x.s7.ate}/${x.s7.planned}`} /></td>
-          <td class="num">${x.w.length ? html`<strong>${numStr(x.w[x.w.length - 1].y)}</strong>${x.dW != null && html`<small class=${x.dW <= 0 ? 'good-t' : 'muted'}> ${x.dW > 0 ? '+' : ''}${numStr(x.dW)}</small>`}` : '—'}</td>
-          <td>${x.nOm ? html`<${Pill} k="bad">${x.nOm} desde la última revisión<//>` : html`<${Pill} k="good">Sin omisiones<//>`}</td>
-          <td>${x.s.nextReview ? html`<span class=${x.s.nextReview <= today() ? 'warn-t' : ''}>${fmtD(x.s.nextReview)}</span>` : html`<span class="muted">Sin fecha</span>`}</td>
+          <td class="full"><span class="cell-person"><${Avatar} p=${x.s} size=${30} tone=${hashTone(x.s.id)} /><span><strong>${fullName(x.s)}</strong><small class="muted">${x.last ? 'Última actividad ' + fmtDs(x.last.date) : 'Sin actividad'}</small></span></span></td>
+          <td data-label="Entrenamiento (30 d)"><${MiniBar} pct=${x.s30.trainPct} label=${`${x.s30.done} sesiones`} /></td>
+          <td data-label="Dieta (7 d)"><${MiniBar} pct=${x.s7.dietPct} label=${`${x.s7.ate}/${x.s7.planned}`} /></td>
+          <td class="num" data-label="Peso">${x.w.length ? html`<strong>${numStr(x.w[x.w.length - 1].y)}</strong>${x.dW != null && html`<small class=${x.dW <= 0 ? 'good-t' : 'muted'}> ${x.dW > 0 ? '+' : ''}${numStr(x.dW)}</small>`}` : '—'}</td>
+          <td data-label="Omisiones">${x.nOm ? html`<${Pill} k="bad">${x.nOm} desde la última revisión<//>` : html`<${Pill} k="good">Sin omisiones<//>`}</td>
+          <td data-label="Próx. revisión">${x.s.nextReview ? html`<span class=${x.s.nextReview <= today() ? 'warn-t' : ''}>${fmtD(x.s.nextReview)}</span>` : html`<span class="muted">Sin fecha</span>`}</td>
         </tr>`)}</tbody></table></div>` : html`<${Empty} icon="users" title="Aún no tienes alumnos" text="Crea la cuenta de tu primer alumno para asignarle dieta, rutina y revisiones."><button class="btn primary mt" onClick=${() => openModal(PersonForm, { kind: 'student', trainerId: tr.id, onSaved: s => go('student', { id: s.id }) })}><${Ic} n="plus" s=${16} />Nuevo alumno</button><//>`}
     </section>
     <div class="cols">

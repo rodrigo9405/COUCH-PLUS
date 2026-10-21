@@ -56,7 +56,7 @@ function Modal({ title, sub, onClose, children, footer, size = 'md', noClose }) 
     if (f && size !== 'full') setTimeout(() => f.focus({ preventScroll: true }), 30);
     return () => document.removeEventListener('keydown', k);
   }, []);
-  return html`<div class=${'overlay ' + size} onMouseDown=${e => { if (e.target === e.currentTarget && !noClose && size !== 'full') onClose && onClose(); }}>
+  return html`<div class=${'overlay sz-' + size} onMouseDown=${e => { if (e.target === e.currentTarget && !noClose && size !== 'full') onClose && onClose(); }}>
     <div class="dialog" role="dialog" aria-modal="true" aria-label=${title} ref=${ref}>
       <header class="dlg-h"><div><h3>${title}</h3>${sub && html`<p class="muted sm">${sub}</p>`}</div>${!noClose && html`<button class="icon-btn" aria-label="Cerrar" onClick=${onClose}><${Ic} n="x" /></button>`}</header>
       <div class="dlg-b">${children}</div>

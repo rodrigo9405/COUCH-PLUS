@@ -115,7 +115,7 @@ input:focus, select:focus, textarea:focus { outline: none; border-color: var(--a
 .affix > span + input { padding-left: 34px !important; }
 .affix.r > button { position: absolute; right: 10px; }
 .affix.r > input { padding-right: 70px !important; }
-.toggle { display: inline-flex; align-items: center; gap: 10px; cursor: pointer; font-size: 14px; font-weight: 500; user-select: none; }
+.toggle { position: relative; display: inline-flex; align-items: center; gap: 10px; cursor: pointer; font-size: 14px; font-weight: 500; user-select: none; }
 .toggle input { position: absolute; opacity: 0; width: 1px; height: 1px; }
 .toggle .track { width: 42px; height: 24px; border-radius: 12px; background: var(--line-2); position: relative; transition: background .15s; flex: none; }
 .toggle .knob { position: absolute; top: 3px; left: 3px; width: 18px; height: 18px; border-radius: 50%; background: #fff; box-shadow: 0 1px 2px rgba(0,0,0,.25); transition: transform .15s; }
@@ -141,7 +141,7 @@ input:focus, select:focus, textarea:focus { outline: none; border-color: var(--a
 .nav-i.on .ic { color: var(--c-yellow); }
 .side-foot { margin-top: auto; display: flex; flex-direction: column; gap: 6px; }
 .me { display: flex; gap: 10px; align-items: center; padding: 10px; border-top: 1px solid var(--side-2); }
-.me span { display: flex; flex-direction: column; min-width: 0; } .me strong { font-size: 14px; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; } .me small { color: var(--side-ink-2); }
+.me > span:not(.avatar) { display: flex; flex-direction: column; min-width: 0; } .me strong { font-size: 14px; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; } .me small { color: var(--side-ink-2); }
 .sync { margin: 4px 12px 0; font-size: 12px; color: var(--side-ink-2); display: inline-flex; align-items: center; gap: 6px; }
 .sync::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--c-green); }
 .sync.local::before { background: var(--c-yellow); }
@@ -161,11 +161,12 @@ input:focus, select:focus, textarea:focus { outline: none; border-color: var(--a
 .card-h h2 { font-family: var(--f-display); font-weight: 600; font-size: 22px; letter-spacing: .01em; line-height: 1.1; }
 .panel { background: var(--surface-2); border: 1px solid var(--line); border-radius: 10px; padding: 14px 16px; min-width: 0; }
 .cols { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; align-items: start; }
-.kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 12px; }
+.kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; }
 .kpis.three { grid-template-columns: repeat(3, minmax(0, 1fr)); margin-block: 6px 16px; }
 .kpi { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); padding: 14px 16px; display: flex; flex-direction: column; gap: 2px; min-width: 0; }
-.kpi-h { display: flex; justify-content: space-between; align-items: center; color: var(--ink-2); font-size: 13px; font-weight: 600; }
+.kpi-h { display: flex; justify-content: space-between; align-items: center; gap: 6px; color: var(--ink-2); font-size: 13px; font-weight: 600; }
 .kpi-h .ic { color: var(--ink-3); }
+.kpi-h span { min-width: 0; }
 .kpi strong { font-family: var(--f-display); font-size: 40px; font-weight: 600; line-height: 1.05; font-variant-numeric: tabular-nums; }
 .kpi small { color: var(--ink-3); font-size: 12.5px; }
 .kpi.good strong { color: var(--good); } .kpi.bad strong { color: var(--bad); } .kpi.warn strong { color: var(--warn); }
@@ -189,11 +190,11 @@ input:focus, select:focus, textarea:focus { outline: none; border-color: var(--a
 .dot { width: 9px; height: 9px; border-radius: 50%; flex: none; background: var(--ink-3); }
 .dot.good { background: var(--good); } .dot.bad { background: var(--bad); } .dot.warn { background: var(--warn); } .dot.info { background: var(--accent); }
 .list { list-style: none; margin: 0; padding: 0; }
-.li { display: flex; align-items: center; gap: 12px; padding: 11px 0; border-bottom: 1px solid var(--line); }
+.li { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 12px; padding: 11px 0; border-bottom: 1px solid var(--line); }
 .li:last-child { border-bottom: 0; }
-.li-main { display: flex; flex-direction: column; min-width: 0; flex: 1; }
-.li-main strong { font-weight: 600; overflow-wrap: anywhere; }
-.li-act { display: flex; gap: 6px; flex-wrap: wrap; justify-content: flex-end; }
+.li-main { display: flex; flex-direction: column; min-width: 0; flex: 1 1 150px; }
+.li-main strong { font-weight: 600; overflow-wrap: break-word; }
+.li-act { display: flex; gap: 6px; flex-wrap: wrap; justify-content: flex-end; margin-left: auto; }
 .clickable { cursor: pointer; } .li.clickable:hover { background: var(--surface-2); margin-inline: -10px; padding-inline: 10px; border-radius: 8px; }
 .bad-row strong { color: var(--bad); }
 .mini-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 6px; }
@@ -207,24 +208,26 @@ input:focus, select:focus, textarea:focus { outline: none; border-color: var(--a
 
 /* ---------- Tablas ---------- */
 .table-wrap { overflow-x: auto; margin-inline: -4px; padding-inline: 4px; }
-.tbl { width: 100%; border-collapse: collapse; min-width: 720px; font-size: 14px; }
-.tbl.sm { min-width: 420px; font-size: 13px; margin-top: 10px; }
+.tbl { width: 100%; border-collapse: collapse; min-width: 640px; font-size: 14px; }
+.tbl.sm { min-width: 0; font-size: 13px; margin-top: 10px; }
 .tbl th { text-align: left; font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-3); padding: 8px 12px; border-bottom: 1px solid var(--line); white-space: nowrap; }
 .tbl td { padding: 11px 12px; border-bottom: 1px solid var(--line); vertical-align: middle; }
 .tbl tr:last-child td { border-bottom: 0; }
 .tbl .num { text-align: right; font-variant-numeric: tabular-nums; }
 .tbl .act { text-align: right; white-space: nowrap; }
+.tbl td .stack > span:first-child { white-space: nowrap; }
+.tbl td .pill { white-space: normal; height: auto; min-height: 22px; padding-block: 2px; line-height: 1.25; }
 .tbl tr.dim td { opacity: .55; } .tbl tr.dim td:last-child, .tbl tr.dim td:nth-last-child(2) { opacity: 1; }
 .tbl tr.clickable:hover td { background: var(--surface-2); }
 .cell-person { display: flex; align-items: center; gap: 10px; background: none; border: 0; padding: 0; text-align: left; min-width: 0; }
-.cell-person span { display: flex; flex-direction: column; min-width: 0; } .cell-person small { font-size: 12.5px; }
+.cell-person > span:not(.avatar) { display: flex; flex-direction: column; min-width: 0; } .cell-person small { font-size: 12.5px; }
 button.cell-person:hover strong { color: var(--accent); }
 .toolbar { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
 .toolbar > p { flex: 1; min-width: 200px; }
 .search { position: relative; flex: 1; min-width: 200px; max-width: 420px; display: flex; align-items: center; }
 .search .ic { position: absolute; left: 12px; color: var(--ink-3); }
 .search input { padding-left: 36px !important; }
-.minibar { display: flex; flex-direction: column; gap: 4px; min-width: 120px; font-size: 12.5px; color: var(--ink-2); }
+.minibar { display: flex; flex-direction: column; gap: 4px; min-width: 100px; font-size: 12.5px; color: var(--ink-2); }
 .minibar strong { color: var(--ink); font-variant-numeric: tabular-nums; }
 .mb-track { height: 6px; border-radius: 3px; background: var(--line); overflow: hidden; }
 .mb-fill { height: 100%; border-radius: 3px; background: var(--ink-3); transition: width .3s; }
@@ -241,9 +244,9 @@ button.cell-person:hover strong { color: var(--accent); }
 /* ---------- Modales ---------- */
 .overlay { position: fixed; inset: 0; z-index: 50; background: var(--scrim); display: grid; grid-template: minmax(0, 1fr) / minmax(0, 1fr); place-items: center; padding: max(16px, env(safe-area-inset-top, 0px)) max(16px, env(safe-area-inset-right, 0px)) max(16px, env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-left, 0px)); animation: fade .15s ease-out; }
 .dialog { background: var(--surface); color: var(--ink); border-radius: 16px; width: min(640px, 100%); max-height: calc(100dvh - 32px); display: flex; flex-direction: column; box-shadow: 0 24px 60px -20px rgba(0,0,0,.45); border: 1px solid var(--line); animation: rise .18s ease-out; }
-.overlay.sm .dialog { width: min(460px, 100%); } .overlay.lg .dialog { width: min(920px, 100%); }
-.overlay.full { padding: 0; } .overlay.full .dialog { width: 100%; height: 100%; max-height: none; border-radius: 0; border: 0; }
-@media (min-width: 1000px) { .overlay.full:not(.player-ov) { padding: 20px; } .overlay.full:not(.player-ov) .dialog { max-width: 1240px; border-radius: 16px; border: 1px solid var(--line); } }
+.overlay.sz-sm .dialog { width: min(460px, 100%); } .overlay.sz-lg .dialog { width: min(920px, 100%); }
+.overlay.sz-full { padding: 0; } .overlay.sz-full .dialog { width: 100%; height: 100%; max-height: none; border-radius: 0; border: 0; }
+@media (min-width: 1000px) { .overlay.sz-full:not(.player-ov) { padding: 20px; } .overlay.sz-full:not(.player-ov) .dialog { max-width: 1240px; border-radius: 16px; border: 1px solid var(--line); } }
 .dlg-h { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; padding: 18px 20px 14px; border-bottom: 1px solid var(--line); }
 .dlg-h h3 { font-family: var(--f-display); font-size: 24px; font-weight: 600; line-height: 1.1; }
 .dlg-b { padding: 18px 20px; overflow-y: auto; flex: 1; min-height: 0; }
@@ -280,7 +283,7 @@ button.cell-person:hover strong { color: var(--accent); }
 .pop-i { display: flex; gap: 10px; width: 100%; padding: 10px; border: 0; background: none; text-align: left; border-radius: 8px; align-items: flex-start; }
 .pop-i:hover { background: var(--surface-2); }
 .pop-i .dot { margin-top: 6px; }
-.pop-i span { display: flex; flex-direction: column; } .pop-i strong { font-size: 14px; }
+.pop-i > span:not(.dot) { display: flex; flex-direction: column; } .pop-i strong { font-size: 14px; }
 
 /* ---------- Alumnos (tarjetas) ---------- */
 .scards { display: grid; grid-template-columns: repeat(auto-fill, minmax(270px, 1fr)); gap: 12px; }
@@ -289,7 +292,7 @@ button.cell-person:hover strong { color: var(--accent); }
 .tags { display: flex; gap: 6px; flex-wrap: wrap; }
 
 /* ---------- Dieta ---------- */
-.dgrid { display: grid; min-width: 940px; border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
+.dgrid { display: grid; min-width: 860px; border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
 .dgrid > div { border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); padding: 10px; min-width: 0; }
 .dg-h { font-family: var(--f-display); font-weight: 600; font-size: 17px; text-transform: uppercase; letter-spacing: .04em; background: var(--surface-2); display: flex; justify-content: space-between; align-items: baseline; }
 .dg-h small { font-family: var(--f-body); font-size: 11px; color: var(--accent); font-weight: 700; letter-spacing: .06em; }
@@ -358,7 +361,7 @@ button.cell-person:hover strong { color: var(--accent); }
 .red { display: grid; grid-template-columns: 260px minmax(0, 1fr); gap: 20px; align-items: start; }
 .red-days { display: flex; flex-direction: column; gap: 6px; position: sticky; top: 0; }
 .red-day { display: flex; align-items: center; gap: 10px; padding: 10px; border-radius: 10px; border: 1px solid var(--line); background: var(--surface); text-align: left; }
-.red-day span { display: flex; flex-direction: column; } .red-day small { color: var(--ink-3); font-size: 12px; }
+.red-day > span:not(.plate) { display: flex; flex-direction: column; } .red-day small { color: var(--ink-3); font-size: 12px; }
 .red-day.on { border-color: var(--accent); background: var(--accent-soft); }
 .red-main { display: flex; flex-direction: column; gap: 14px; min-width: 0; }
 .exrow { border: 1px solid var(--line); border-radius: 12px; padding: 12px; display: flex; flex-direction: column; gap: 10px; background: var(--surface); }
@@ -381,7 +384,7 @@ button.cell-person:hover strong { color: var(--accent); }
 .stepper li.on button { border-top-color: var(--accent); color: var(--ink); } .stepper li.on button span { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
 .stepper li.done button { border-top-color: var(--good); color: var(--ink-2); } .stepper li.done button span { background: var(--good); color: #fff; border-color: var(--good); }
 .choice2 { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(260px, 100%), 1fr)); gap: 12px; }
-.choice { display: flex; flex-direction: column; align-items: flex-start; gap: 6px; padding: 18px; border-radius: 12px; border: 1.5px solid var(--line-2); background: var(--surface); text-align: left; cursor: pointer; }
+.choice { position: relative; display: flex; flex-direction: column; align-items: flex-start; gap: 6px; padding: 18px; border-radius: 12px; border: 1.5px solid var(--line-2); background: var(--surface); text-align: left; cursor: pointer; }
 .choice:hover { border-color: var(--accent); }
 .choice.on { border-color: var(--accent); background: var(--accent-soft); }
 .choice .ic { color: var(--accent); }
@@ -453,8 +456,8 @@ button.cell-person:hover strong { color: var(--accent); }
 .bar-l { font-size: 12px; color: var(--ink-2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
 .legend { display: flex; gap: 12px; flex-wrap: wrap; font-size: 12.5px; color: var(--ink-2); }
 .legend span { display: inline-flex; align-items: center; gap: 5px; }
-.lg { width: 12px; height: 12px; border-radius: 3px; display: inline-block; }
-.lg.good { background: var(--good-soft); border: 1.5px solid var(--good); } .lg.bad { background: var(--bad-soft); border: 1.5px solid var(--bad); } .lg.diet { background: var(--c-green); border-radius: 50%; width: 8px; height: 8px; }
+.lg-sw { width: 12px; height: 12px; border-radius: 3px; display: inline-block; }
+.lg-sw.good { background: var(--good-soft); border: 1.5px solid var(--good); } .lg-sw.bad { background: var(--bad-soft); border: 1.5px solid var(--bad); } .lg-sw.diet { background: var(--c-green); border-radius: 50%; width: 8px; height: 8px; }
 .cal { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 5px; }
 .cal-h { font-size: 11px; font-weight: 700; color: var(--ink-3); text-align: center; letter-spacing: .06em; text-transform: uppercase; padding-bottom: 2px; }
 .cal-c { position: relative; aspect-ratio: 1.25; max-width: 100%; border-radius: 8px; border: 1px solid var(--line); padding: 5px 7px; font-size: 13px; font-weight: 600; font-variant-numeric: tabular-nums; }
@@ -530,7 +533,9 @@ button.cell-person:hover strong { color: var(--accent); }
 .setlist li strong { flex: 1; font-weight: 600; }
 .setlist li.done { background: var(--good-soft); border-color: transparent; color: var(--good); }
 .setlist li.cur { border-color: var(--accent); background: var(--accent-soft); }
-.pl-input { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) auto; gap: 10px; align-items: end; }
+.pl-input { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 10px; align-items: end; }
+.pl-input > :last-child { grid-column: 1 / -1; }
+@media (min-width: 1280px) { .pl-input { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) auto; } .pl-input > :last-child { grid-column: auto; } }
 .stepper-in { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
 .sti { display: grid; grid-template-columns: 44px minmax(0, 1fr) 44px; border: 1px solid var(--line-2); border-radius: 10px; overflow: hidden; background: var(--surface); }
 .sti button { border: 0; background: var(--surface-2); font-size: 22px; font-weight: 600; height: 52px; }
@@ -549,7 +554,9 @@ button.cell-person:hover strong { color: var(--accent); }
 .crash { max-width: 520px; margin: 80px auto; display: flex; flex-direction: column; gap: 12px; align-items: flex-start; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
 
 /* ---------- Responsive ---------- */
-@media (max-width: 1100px) { .home-grid { grid-template-columns: minmax(0, 1fr); } }
+@media (max-width: 760px) { .home-grid { grid-template-columns: minmax(0, 1fr); } }
+@media (min-width: 981px) and (max-width: 1180px) { .shell { grid-template-columns: 216px minmax(0, 1fr); } .page, .top { padding-left: max(24px, env(safe-area-inset-left, 0px)); padding-right: max(24px, env(safe-area-inset-right, 0px)); } }
+@media (min-width: 761px) { .cal-c { aspect-ratio: auto; height: 62px; } }
 @media (max-width: 980px) {
   .shell { grid-template-columns: minmax(0, 1fr); }
   .side { display: none; }
@@ -564,24 +571,79 @@ button.cell-person:hover strong { color: var(--accent); }
   .tabbar button { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 2px; border: 0; background: none; color: var(--ink-3); font-size: 11.5px; font-weight: 600; padding: 4px 0; min-width: 0; }
   .tabbar button span { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
   .tabbar button.on { color: var(--accent); }
-  .cols { grid-template-columns: minmax(0, 1fr); }
+  .tabbar { justify-content: center; }
+  .tabbar button { max-width: 150px; }
   .login { grid-template-columns: minmax(0, 1fr); }
   .login-art { min-height: 230px; padding: 28px 20px; padding-left: max(20px, env(safe-area-inset-left, 0px)); align-items: flex-end; }
-  .plates { top: -40px; right: -170px; transform: scale(.55); }
-  .brand.big { font-size: 64px; }
+  .plates { top: -95px; right: -205px; transform: scale(.5); opacity: .9; }
+  .brand.big { font-size: 56px; }
   .art-copy p { font-size: 20px; } .art-copy ul { display: none; }
   .red { grid-template-columns: minmax(0, 1fr); }
-  .red-days { flex-direction: row; overflow-x: auto; position: static; padding-bottom: 4px; }
-  .red-day { flex: none; }
+  .red-days { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); position: static; }
+  .red-days > .btn { grid-column: 1 / -1; justify-self: start; }
   .pl-body { grid-template-columns: minmax(0, 1fr); grid-template-rows: minmax(240px, 40vh) auto; overflow-y: auto; }
   .pl-stage { padding: 10px; }
   .pl-panel { border-left: 0; border-top: 1px solid var(--line); overflow: visible; padding: 18px 16px 40px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-bottom: max(40px, env(safe-area-inset-bottom, 0px)); }
   .rest { position: fixed; inset: 0; z-index: 60; border-radius: 0; gap: 12px; padding-bottom: max(16px, env(safe-area-inset-bottom, 0px)); }
 }
+@media (max-width: 760px) {
+  .cols { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 860px) {
+  .table-wrap:has(> .tbl.stack) { overflow: visible; margin-inline: 0; padding-inline: 0; }
+  .tbl.stack { min-width: 0; display: block; }
+  .tbl.stack thead { display: none; }
+  .tbl.stack tbody { display: block; }
+  .tbl.stack tr { display: grid; grid-template-columns: repeat(auto-fill, minmax(118px, 1fr)); gap: 12px 14px; padding: 14px 0; border-bottom: 1px solid var(--line); }
+  .tbl.stack tr:last-child { border-bottom: 0; }
+  .tbl.stack td { display: flex; flex-direction: column; align-items: flex-start; gap: 4px; padding: 0; border: 0; min-width: 0; text-align: left; }
+  .tbl.stack td[data-label]::before { content: attr(data-label); font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-3); }
+  .tbl.stack td.full, .tbl.stack td.act { grid-column: 1 / -1; }
+  .tbl.stack td.act { flex-direction: row; gap: 4px; margin-top: -6px; }
+  .tbl.stack .minibar { min-width: 0; width: 100%; }
+  .tbl.stack tr.clickable:hover td { background: none; }
+  .tbl.stack tr.clickable:active { background: var(--surface-2); }
+}
 @media (max-width: 640px) {
+  .tabs { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); overflow: visible; }
+  .tab { flex-direction: column; justify-content: center; height: auto; min-height: 58px; padding: 8px 2px 7px; gap: 4px; font-size: 12px; line-height: 1.15; white-space: normal; text-align: center; position: relative; }
+  .tab .badge { position: absolute; top: 3px; left: calc(50% + 7px); margin: 0; min-width: 18px; height: 18px; font-size: 11px; padding: 0 5px; }
+  .daychips { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 4px; overflow: visible; }
+  .dchip { padding: 0; justify-content: center; height: 38px; font-size: 13px; gap: 3px; }
+  .pop { position: fixed; top: calc(env(safe-area-inset-top, 0px) + 56px); left: max(16px, env(safe-area-inset-left, 0px)); right: max(16px, env(safe-area-inset-right, 0px)); width: auto; }
+  .kpis.three { gap: 8px; }
+  .kpis.three .kpi { padding: 10px 12px; }
+  .kpi-h .ic { display: none; }
+  .kpis.three .kpi-h { font-size: 11px; }
+  .dlg-h { padding: 16px 16px 12px; }
+  .dlg-b { padding: 16px; }
+  .dlg-f { padding-inline: 16px; }
+  .dlg-f > .btn { flex: 1 1 auto; }
+  .dlg-f > .grow { display: none; }
+  .ded-bar { top: -16px; }
+  .meal-ed { padding: 12px; }
+  .irow { grid-template-columns: 56px 84px minmax(0, 1fr) 28px; gap: 4px; }
+  .mrow2 { grid-template-columns: 24px minmax(0, 1fr) 28px 28px 28px; gap: 6px 4px; }
+  .mrow2 input[type=time] { grid-column: 2; grid-row: 2; width: 130px !important; }
+  .ex-top { display: flex; flex-wrap: wrap; align-items: center; justify-content: flex-end; gap: 6px; }
+  .ex-top .ex-name { flex: 1 1 calc(100% - 34px); min-width: 0; }
+  .stepper { flex-wrap: nowrap; gap: 6px; margin-bottom: 14px; }
+  .phead { gap: 10px; }
+  .phead .h-name { display: none; }
+  .nd-title { font-size: 26px; }
+  .nextday .row > .btn { flex: 1 1 130px; }
+  .tmeal { grid-template-columns: 36px minmax(0, 1fr); gap: 8px 12px; }
+  .tmeal > .btn { grid-column: 2; justify-self: start; }
+  .tm-check { width: 34px; height: 34px; }
+  .stepper li { min-width: 0; }
+  .stepper button { flex-direction: column; align-items: flex-start; gap: 5px; font-size: 12px; line-height: 1.2; white-space: nowrap; }
+  .stepper li.on { flex: 2.4; }
+  .stepper li:not(.on) button { font-size: 0; }
+  .stepper li:not(.on) button span { font-size: 12px; }
+
   .grid2, .grid3 { grid-template-columns: minmax(0, 1fr); }
-  .overlay:not(.full) { align-items: end; padding: 0; padding-top: 24px; }
-  .overlay:not(.full) .dialog { width: 100% !important; border-radius: 18px 18px 0 0; max-height: calc(100dvh - 24px); border-bottom: 0; }
+  .overlay:not(.sz-full) { align-items: end; padding: 0; padding-top: 24px; }
+  .overlay:not(.sz-full) .dialog { width: 100% !important; border-radius: 18px 18px 0 0; max-height: calc(100dvh - 24px); border-bottom: 0; }
   .card { padding: 16px; }
   .kpi strong { font-size: 32px; }
   .kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -589,14 +651,10 @@ button.cell-person:hover strong { color: var(--accent); }
   .kpis.three .kpi strong { font-size: 24px; }
   .hello h1 { font-size: 34px; }
   .pl-name { font-size: 30px; }
-  .pl-input { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
-  .pl-input > :last-child { grid-column: 1 / -1; }
   .ph-pending { grid-template-columns: minmax(0, 1fr); }
   .ph-pending img { max-width: 220px; }
   .mrow { grid-template-columns: minmax(0, 1fr) 84px 64px 30px; }
   .mrow .m-prev { grid-column: 1 / -1; order: 5; margin-top: -4px; }
-  .irow { grid-template-columns: 62px 92px minmax(0, 1fr) 30px; }
-  .mrow2 { grid-template-columns: 24px minmax(0, 1fr) 92px 28px 28px 28px; gap: 4px; }
   .ex-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
   .exlist li { grid-template-columns: 24px minmax(0, 1fr) auto 30px; }
   .exlist li .exr { display: none; }
@@ -608,6 +666,11 @@ button.cell-person:hover strong { color: var(--accent); }
   .dlg-h h3 { font-size: 22px; }
   .review-next h2 { font-size: 24px; }
   .h-name { font-size: 26px; }
+}
+@media (max-width: 360px) {
+  .sti { grid-template-columns: 38px minmax(0, 1fr) 38px; }
+  .sti input { font-size: 24px !important; }
+  .pl-panel { padding-inline: 14px; }
 }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
 
@@ -1759,7 +1822,7 @@ function Modal({ title, sub, onClose, children, footer, size = 'md', noClose }) 
     if (f && size !== 'full') setTimeout(() => f.focus({ preventScroll: true }), 30);
     return () => document.removeEventListener('keydown', k);
   }, []);
-  return html`<div class=${'overlay ' + size} onMouseDown=${e => { if (e.target === e.currentTarget && !noClose && size !== 'full') onClose && onClose(); }}>
+  return html`<div class=${'overlay sz-' + size} onMouseDown=${e => { if (e.target === e.currentTarget && !noClose && size !== 'full') onClose && onClose(); }}>
     <div class="dialog" role="dialog" aria-modal="true" aria-label=${title} ref=${ref}>
       <header class="dlg-h"><div><h3>${title}</h3>${sub && html`<p class="muted sm">${sub}</p>`}</div>${!noClose && html`<button class="icon-btn" aria-label="Cerrar" onClick=${onClose}><${Ic} n="x" /></button>`}</header>
       <div class="dlg-b">${children}</div>
@@ -2144,14 +2207,14 @@ function AdminTrainers({ go, params }) {
   return html`<div class="page">
     <div class="toolbar"><div class="search"><${Ic} n="search" s=${16} /><input id="at-q" placeholder="Buscar por nombre, DNI o usuario" value=${q} onInput=${e => setQ(e.target.value)} /></div>
       <button class="btn primary" onClick=${() => openModal(PersonForm, { kind: 'trainer' })}><${Ic} n="plus" s=${16} />Nuevo entrenador</button></div>
-    ${list.length ? html`<div class="table-wrap"><table class="tbl">
+    ${list.length ? html`<div class="table-wrap"><table class="tbl stack">
       <thead><tr><th>Entrenador</th><th>Teléfono</th><th>Plan</th><th>Próximo pago</th><th class="num">Alumnos</th><th>Acceso</th><th></th></tr></thead>
       <tbody>${list.map(t => html`<tr class=${t.active === false ? 'dim' : ''}>
-        <td><button class="cell-person" onClick=${() => openModal(TrainerDetail, { id: t.id, go })}><${Avatar} p=${t} size=${32} tone=${hashTone(t.id)} /><span><strong>${fullName(t)}</strong><small class="muted">DNI ${t.dni || '—'} · ${t.user}</small></span></button></td>
-        <td>${t.telefono || '—'}</td><td>${FREQ[t.freq || 'mensual'].label}</td>
-        <td><div class="stack"><span>${fmtD(t.nextPay)}</span><${PayPill} next=${t.nextPay} /></div></td>
-        <td class="num">${Q.students(t.id).length}</td>
-        <td><${Toggle} id=${'tg-' + t.id} checked=${t.active !== false} onChange=${v => { Store.put('trainers', Object.assign({}, t, { active: v })); toast(v ? 'Entrenador activado' : 'Entrenador desactivado'); }} /></td>
+        <td class="full"><button class="cell-person" onClick=${() => openModal(TrainerDetail, { id: t.id, go })}><${Avatar} p=${t} size=${32} tone=${hashTone(t.id)} /><span><strong>${fullName(t)}</strong><small class="muted">DNI ${t.dni || '—'} · ${t.user}</small></span></button></td>
+        <td data-label="Teléfono">${t.telefono || '—'}</td><td data-label="Plan">${FREQ[t.freq || 'mensual'].label}</td>
+        <td data-label="Próximo pago"><div class="stack"><span>${fmtD(t.nextPay)}</span><${PayPill} next=${t.nextPay} /></div></td>
+        <td class="num" data-label="Alumnos">${Q.students(t.id).length}</td>
+        <td data-label="Acceso"><${Toggle} id=${'tg-' + t.id} checked=${t.active !== false} onChange=${v => { Store.put('trainers', Object.assign({}, t, { active: v })); toast(v ? 'Entrenador activado' : 'Entrenador desactivado'); }} /></td>
         <td class="act"><button class="icon-btn" aria-label="Ver detalle" onClick=${() => openModal(TrainerDetail, { id: t.id, go })}><${Ic} n="eye" /></button><button class="icon-btn" aria-label="Editar" onClick=${() => openModal(PersonForm, { kind: 'trainer', rec: t })}><${Ic} n="edit" /></button><button class="icon-btn danger-t" aria-label="Eliminar" onClick=${() => askDeleteTrainer(t)}><${Ic} n="trash" /></button></td>
       </tr>`)}</tbody></table></div>` : html`<${Empty} icon="users" title=${q ? 'Sin resultados' : 'Aún no hay entrenadores'} text=${q ? 'Prueba con otro nombre o DNI.' : 'Crea la primera cuenta de entrenador.'} />`}
   </div>`;
@@ -2196,13 +2259,13 @@ function AdminStudents({ go, params }) {
     <div class="toolbar"><div class="search"><${Ic} n="search" s=${16} /><input id="as-q" placeholder="Buscar alumno" value=${q} onInput=${e => setQ(e.target.value)} /></div>
       <select id="as-tf" class="sel" value=${tf} onChange=${e => setTf(e.target.value)}><option value="" selected=${!tf}>Todos los entrenadores</option>${trs.map(t => html`<option value=${t.id} selected=${t.id === tf}>${fullName(t)}</option>`)}</select>
       <button class="btn primary" disabled=${!trs.length} onClick=${() => openModal(PersonForm, { kind: 'student' })}><${Ic} n="plus" s=${16} />Nuevo alumno</button></div>
-    ${list.length ? html`<div class="table-wrap"><table class="tbl">
+    ${list.length ? html`<div class="table-wrap"><table class="tbl stack">
       <thead><tr><th>Alumno</th><th>Entrenador</th><th>Teléfono</th><th>Inicio</th><th>Próximo pago</th><th></th></tr></thead>
       <tbody>${list.map(s => { const t = Q.trainer(s.trainerId); return html`<tr class=${t && t.active === false ? 'dim' : ''}>
-        <td><button class="cell-person" onClick=${() => openModal(StudentInfo, { id: s.id })}><${Avatar} p=${s} size=${32} tone=${hashTone(s.id)} /><span><strong>${fullName(s)}</strong><small class="muted">DNI ${s.dni || '—'} · ${s.user}</small></span></button></td>
-        <td>${t ? html`<span>${fullName(t)}</span>${t.active === false ? html` <${Pill} k="bad">Inactivo<//>` : ''}` : html`<span class="muted">Sin asignar</span>`}</td>
-        <td>${s.telefono || '—'}</td><td>${fmtD(s.inicio)}</td>
-        <td>${s.remind ? html`<div class="stack"><span>${fmtD(s.nextPay)}</span><${PayPill} next=${s.nextPay} /></div>` : html`<span class="muted">Sin recordatorio</span>`}</td>
+        <td class="full"><button class="cell-person" onClick=${() => openModal(StudentInfo, { id: s.id })}><${Avatar} p=${s} size=${32} tone=${hashTone(s.id)} /><span><strong>${fullName(s)}</strong><small class="muted">DNI ${s.dni || '—'} · ${s.user}</small></span></button></td>
+        <td data-label="Entrenador">${t ? html`<span>${fullName(t)}</span>${t.active === false ? html` <${Pill} k="bad">Inactivo<//>` : ''}` : html`<span class="muted">Sin asignar</span>`}</td>
+        <td data-label="Teléfono">${s.telefono || '—'}</td><td data-label="Inicio">${fmtD(s.inicio)}</td>
+        <td data-label="Próximo pago">${s.remind ? html`<div class="stack"><span>${fmtD(s.nextPay)}</span><${PayPill} next=${s.nextPay} /></div>` : html`<span class="muted">Sin recordatorio</span>`}</td>
         <td class="act"><button class="icon-btn" aria-label="Ver detalle" onClick=${() => openModal(StudentInfo, { id: s.id })}><${Ic} n="eye" /></button><button class="icon-btn" aria-label="Editar" onClick=${() => openModal(PersonForm, { kind: 'student', rec: s })}><${Ic} n="edit" /></button></td>
       </tr>`; })}</tbody></table></div>` : html`<${Empty} icon="user" title="Sin alumnos" text=${trs.length ? 'Los entrenadores crean a sus alumnos; también puedes crearlos aquí.' : 'Primero crea un entrenador.'} />`}
   </div>`;
@@ -2251,7 +2314,7 @@ function DietWeek({ st, highlight = today() }) {
   const diet = st.diet;
   if (!diet || !(diet.meals || []).length) return html`<${Empty} icon="food" title="Sin dieta asignada" text="Cuando el entrenador la cree, aparecerá organizada por día." />`;
   const td = dow(highlight);
-  if (wide) return html`<div class="table-wrap"><div class="dgrid" style=${`grid-template-columns: 120px repeat(7, minmax(112px, 1fr))`}>
+  if (wide) return html`<div class="table-wrap"><div class="dgrid" style=${`grid-template-columns: 116px repeat(7, minmax(106px, 1fr))`}>
     <div class="dg-h corner"></div>
     ${DIAS.map((d, i) => html`<div class=${'dg-h ' + (i === td ? 'today' : '')}>${d}${i === td ? html`<small>Hoy</small>` : ''}</div>`)}
     ${diet.meals.map(m => html`<div class="dg-m"><strong>${m.name}</strong>${m.time && html`<small>${m.time}</small>`}</div>
@@ -2361,7 +2424,7 @@ function LogItem({ l }) {
     <button class="row between full link-row" onClick=${() => setOpen(!open)}><strong>${l.dayName}</strong><span class="muted sm">${fmtD(l.date)} · ${fmtTime(l.ts)}</span></button>
     <div class="row gap-s wrap"><${Pill} k="good">Completado<//><span class="muted sm">${(l.exercises || []).length} ejercicios · ${nSets} series${l.duration ? ' · ' + fmtDur(l.duration) : ''}</span><button class="link sm" onClick=${() => setOpen(!open)}>${open ? 'Ocultar detalle' : 'Ver detalle'}</button></div>
     ${open && html`<div class="table-wrap"><table class="tbl sm"><thead><tr><th>Ejercicio</th><th>Series registradas</th></tr></thead><tbody>
-      ${(l.exercises || []).map(e => html`<tr><td>${e.name}</td><td>${(e.sets || []).length ? e.sets.map(s => `${s.reps}×${numStr(s.w)}${s.u}`).join(' · ') : html`<span class="muted">No realizado</span>`}</td></tr>`)}
+      ${(l.exercises || []).map(e => html`<tr><td data-label="Ejercicio">${e.name}</td><td data-label="Series registradas">${(e.sets || []).length ? e.sets.map(s => `${s.reps}×${numStr(s.w)}${s.u}`).join(' · ') : html`<span class="muted">No realizado</span>`}</td></tr>`)}
     </tbody></table></div>`}
   </div></div>`;
 }
@@ -2372,7 +2435,7 @@ function MonthCal({ st, month }) {
   const cells = []; let d = start; while (d <= last || dow(d) !== 0) { cells.push(d); d = addDays(d, 1); if (cells.length > 42) break; }
   const logs = Q.logs(st.id);
   return html`<section class="card"><div class="card-h"><h2>${MESL[parseD(first).getMonth()]} ${first.slice(0, 4)}</h2>
-    <div class="legend"><span><i class="lg good"></i>Entrenó</span><span><i class="lg bad"></i>Omitió</span><span><i class="lg diet"></i>Dieta completa</span></div></div>
+    <div class="legend"><span><i class="lg-sw good"></i>Entrenó</span><span><i class="lg-sw bad"></i>Omitió</span><span><i class="lg-sw diet"></i>Dieta completa</span></div></div>
     <div class="cal">${DIAS3.map(x => html`<div class="cal-h">${x}</div>`)}
       ${cells.map(c => {
         const inM = c.slice(0, 7) === month; const L = logs.filter(l => l.date === c);
@@ -2428,15 +2491,15 @@ function TrainerHome({ tr, go }) {
     </div>
     <section class="card">
       <div class="card-h"><h2>Avance de tus alumnos</h2><button class="btn ghost sm" onClick=${() => go('students')}>Ver todos <${Ic} n="chevR" s=${14} /></button></div>
-      ${sum.length ? html`<div class="table-wrap"><table class="tbl">
+      ${sum.length ? html`<div class="table-wrap"><table class="tbl stack">
         <thead><tr><th>Alumno</th><th>Entrenamiento (30 d)</th><th>Dieta (7 d)</th><th class="num">Peso</th><th>Omisiones</th><th>Próx. revisión</th></tr></thead>
         <tbody>${sum.map(x => html`<tr class="clickable" onClick=${() => go('student', { id: x.s.id })}>
-          <td><span class="cell-person"><${Avatar} p=${x.s} size=${30} tone=${hashTone(x.s.id)} /><span><strong>${fullName(x.s)}</strong><small class="muted">${x.last ? 'Última actividad ' + fmtDs(x.last.date) : 'Sin actividad'}</small></span></span></td>
-          <td><${MiniBar} pct=${x.s30.trainPct} label=${`${x.s30.done} sesiones`} /></td>
-          <td><${MiniBar} pct=${x.s7.dietPct} label=${`${x.s7.ate}/${x.s7.planned}`} /></td>
-          <td class="num">${x.w.length ? html`<strong>${numStr(x.w[x.w.length - 1].y)}</strong>${x.dW != null && html`<small class=${x.dW <= 0 ? 'good-t' : 'muted'}> ${x.dW > 0 ? '+' : ''}${numStr(x.dW)}</small>`}` : '—'}</td>
-          <td>${x.nOm ? html`<${Pill} k="bad">${x.nOm} desde la última revisión<//>` : html`<${Pill} k="good">Sin omisiones<//>`}</td>
-          <td>${x.s.nextReview ? html`<span class=${x.s.nextReview <= today() ? 'warn-t' : ''}>${fmtD(x.s.nextReview)}</span>` : html`<span class="muted">Sin fecha</span>`}</td>
+          <td class="full"><span class="cell-person"><${Avatar} p=${x.s} size=${30} tone=${hashTone(x.s.id)} /><span><strong>${fullName(x.s)}</strong><small class="muted">${x.last ? 'Última actividad ' + fmtDs(x.last.date) : 'Sin actividad'}</small></span></span></td>
+          <td data-label="Entrenamiento (30 d)"><${MiniBar} pct=${x.s30.trainPct} label=${`${x.s30.done} sesiones`} /></td>
+          <td data-label="Dieta (7 d)"><${MiniBar} pct=${x.s7.dietPct} label=${`${x.s7.ate}/${x.s7.planned}`} /></td>
+          <td class="num" data-label="Peso">${x.w.length ? html`<strong>${numStr(x.w[x.w.length - 1].y)}</strong>${x.dW != null && html`<small class=${x.dW <= 0 ? 'good-t' : 'muted'}> ${x.dW > 0 ? '+' : ''}${numStr(x.dW)}</small>`}` : '—'}</td>
+          <td data-label="Omisiones">${x.nOm ? html`<${Pill} k="bad">${x.nOm} desde la última revisión<//>` : html`<${Pill} k="good">Sin omisiones<//>`}</td>
+          <td data-label="Próx. revisión">${x.s.nextReview ? html`<span class=${x.s.nextReview <= today() ? 'warn-t' : ''}>${fmtD(x.s.nextReview)}</span>` : html`<span class="muted">Sin fecha</span>`}</td>
         </tr>`)}</tbody></table></div>` : html`<${Empty} icon="users" title="Aún no tienes alumnos" text="Crea la cuenta de tu primer alumno para asignarle dieta, rutina y revisiones."><button class="btn primary mt" onClick=${() => openModal(PersonForm, { kind: 'student', trainerId: tr.id, onSaved: s => go('student', { id: s.id }) })}><${Ic} n="plus" s=${16} />Nuevo alumno</button><//>`}
     </section>
     <div class="cols">
@@ -3103,7 +3166,7 @@ function WorkoutPlayer({ close, s, idx }) {
   const vol = Object.values(W.sets).flat().reduce((a, x) => a + toKg(x.w, x.u) * x.reps, 0);
   const restLeft = Math.max(0, Math.ceil((W.restEnd - now) / 1000)); const restTotal = (exs[W.ex]?.rest || 1);
   const nextName = (() => { if (done.length < cur.sets) return null; const nx = nextEx(W, W.ex); return nx >= 0 ? exs[nx].name : null; })();
-  return html`<div class="overlay full player-ov"><div class="player" role="dialog" aria-modal="true" aria-label="Entrenamiento">
+  return html`<div class="overlay sz-full player-ov"><div class="player" role="dialog" aria-modal="true" aria-label="Entrenamiento">
     <header class="pl-h"><div><span class="eyebrow">Día ${idx + 1} · ${day.name}</span><strong class="pl-time"><${Ic} n="clock" s=${14} /> ${fmtDur((now - W.started) / 1000)}</strong></div>
       <div class="pl-prog"><div style=${`width:${doneSets / totalSets * 100}%`}></div></div>
       <button class="btn ghost sm" onClick=${exit}>Salir</button></header>

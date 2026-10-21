@@ -230,7 +230,7 @@ function WorkoutPlayer({ close, s, idx }) {
   const vol = Object.values(W.sets).flat().reduce((a, x) => a + toKg(x.w, x.u) * x.reps, 0);
   const restLeft = Math.max(0, Math.ceil((W.restEnd - now) / 1000)); const restTotal = (exs[W.ex]?.rest || 1);
   const nextName = (() => { if (done.length < cur.sets) return null; const nx = nextEx(W, W.ex); return nx >= 0 ? exs[nx].name : null; })();
-  return html`<div class="overlay full player-ov"><div class="player" role="dialog" aria-modal="true" aria-label="Entrenamiento">
+  return html`<div class="overlay sz-full player-ov"><div class="player" role="dialog" aria-modal="true" aria-label="Entrenamiento">
     <header class="pl-h"><div><span class="eyebrow">Día ${idx + 1} · ${day.name}</span><strong class="pl-time"><${Ic} n="clock" s=${14} /> ${fmtDur((now - W.started) / 1000)}</strong></div>
       <div class="pl-prog"><div style=${`width:${doneSets / totalSets * 100}%`}></div></div>
       <button class="btn ghost sm" onClick=${exit}>Salir</button></header>
